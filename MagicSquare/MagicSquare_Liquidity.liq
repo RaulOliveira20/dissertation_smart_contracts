@@ -7,11 +7,7 @@ let%entry magic_square (num : int) _ =
   let used = (Map [] : (int, int) map) in
   let m = (Map [] : (int, int) map) in 
   let i = 0 in
-  let j = 0 in(*
-  let s = 0 in
-  let k = 0 in
-  let t = 0 in
-  let p = 0 in*)
+  let j = 0 in
   let back = false in
   let b_o = 0 in
   
@@ -424,18 +420,7 @@ let%entry magic_square (num : int) _ =
           
           let k = abmkt.(3) in
           let t = abmkt.(4) in
-          (*
-          let ijkt = 
-            if (i = 4 & j = 3) then
-              (num + 1, num + 1, num + 1, num + 1)
-            else
-              (i, j, k, t)
-          in
-          let i = ijkt.(0) in
-          let j = ijkt.(1) in
-          let k = ijkt.(2) in
-          let t = ijkt.(3) in
-          *)
+
           let k, _ =
             Loop.left (fun (k, used) ->
                 
@@ -461,22 +446,7 @@ let%entry magic_square (num : int) _ =
               else (Right t, use)
             ) t use;
           in
-          (*
-          let ijkt = 
-            if (i = 4 & j = 3) then
-              (num + 1, num + 1, num + 1, num + 1)
-            else
-              (i, j, k, t)
-          in
-          let i = ijkt.(0) in
-          let j = ijkt.(1) in
-          let k = ijkt.(2) in
-          let t = ijkt.(3) in
-          *)
-          (*
-          let abmijbackbo =
-          if (i <> 4 || j <> 3) then
-          *)
+          
           let abmijbackbo =
             if ((k < num & t < num) || (backbo.(0) = true & k < num)) then
               let tk = 
@@ -522,11 +492,7 @@ let%entry magic_square (num : int) _ =
                     else (Right t, use)
                     ) t use;
                   in
-                  (*
-                  let abmktbb = 
-                    (abmktij.(0), abmktij.(1), abmktij.(2), k, t, bb)
-                  in
-                  *)
+
                   let abmktbb = 
                     if (t >= num || k >= num) then
                       (abmktij.(0), abmktij.(1), abmktij.(2), k + 1, 0, false)
@@ -617,34 +583,10 @@ let%entry magic_square (num : int) _ =
               in
               
               (abmkt.(0), abmkt.(1), abmkt.(2), ij.(0), ij.(1), true, b_o)
-          in
-            (*
-            abmijbackbo
-            
-          else
-            (abmkt.(0), abmkt.(1), abmkt.(2), i, j, backbo.(0), backbo.(1))
-            
-          in
-          *)
-          
-          
-          (*
-          (used, use, abmij.(2), abmij.(3), abmij.(4), backbo.(0), backbo.(1))
-          *)          
+          in        
 
           abmijbackbo
       in
-      (*
-      let ij = 
-        if (abmijbackbo.(3) = 4 & abmijbackbo.(4) = 1) then
-          (num, num)
-        else
-          (abmijbackbo.(3), abmijbackbo.(4))
-      in
-      
-      
-      let abmij = (abmijbackbo.(0), abmijbackbo.(1), abmijbackbo.(2), ij.(0), ij.(1)) in
-      *)
       
       let abmij = (abmijbackbo.(0), abmijbackbo.(1), abmijbackbo.(2), abmijbackbo.(3), abmijbackbo.(4)) in
       
