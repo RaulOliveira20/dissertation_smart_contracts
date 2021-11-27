@@ -1,7 +1,6 @@
 archetype MagicSquare
 
 variable mag : map<int, int> = []
-//variable pp : int = 0
 
 entry magicsquare (num : int) {
     var a : map<int, int> = [];
@@ -17,8 +16,6 @@ entry magicsquare (num : int) {
     var back : bool = false;
     var b_o : int = 0;
     var bb : bool = false;
-
-    //m := put(m, 0, 1);
 
     var t = floor((n - 1) / 2);
     var k = n - 1;
