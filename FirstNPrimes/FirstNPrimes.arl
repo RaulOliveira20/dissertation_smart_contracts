@@ -1,0 +1,47 @@
+archetype FirstNPrimes
+
+variable primes : int = 0
+
+function while_two (i : int, x : int) : int {
+    var y : int = x;
+    var j : int = i;
+
+    iter z to 49 do
+        if (j % y <> 0 and y * y <= j) then y := y + 2;
+    done;
+    
+    return y
+}
+
+function while_one (num : int, p : int, i : int, x : int) : int {
+    var y : int = x;
+    var j : int = i;
+    var pp : int = p;
+    var nn : int = num * 5;
+
+    iter z to nn do
+        if pp < num then
+        (
+            y := while_two(j, y);
+
+            if j % y <> 0 or j = 3 then pp := pp + 1;
+
+            y := 3;
+
+            j += 2;
+        );
+    done;
+    
+    return j
+}
+
+entry n_primes (num : int) {
+    var p : int = 1;
+    var i : int = 3;
+    var x : int = 3;
+
+    if (p < num) then i := while_one(num, p, i, x);
+
+    if (num <= 1) then primes := 2 else primes := i - 2
+}
+
