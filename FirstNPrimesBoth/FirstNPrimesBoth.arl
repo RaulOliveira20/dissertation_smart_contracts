@@ -1,0 +1,34 @@
+archetype FirstNPrimesBoth
+
+variable primes : int = 0
+
+entry n_primes (num : int) {
+    
+    var p : int = 1;
+    var i : int = 3;
+    var c : nat = 0;
+    var nn : int = num * 5;
+    var m : map<nat, int> = [ (0, 2i) ];
+
+    iter z to nn do
+        if p < num then
+        (            
+            iter w to 32 do
+                if i % m[c] <> 0 and m[c] * m[c] <= i then
+                    c := c + 1
+            done;
+
+            if i % m[c] <> 0 then 
+            (
+                m := put(m, abs(p), i);
+                p := p + 1;
+            );
+
+            c := 0;
+
+            i += 2;
+        );
+    done;
+
+    if (num <= 1) then primes := 2 else primes := i - 2
+}
