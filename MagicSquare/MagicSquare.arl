@@ -1,0 +1,353 @@
+archetype MagicSquare
+
+variable mag : map<int, int> = []
+//variable pp : int = 0
+
+entry magicsquare (num : int) {
+    var a : map<int, int> = [];
+    var b : map<int, int> = [];
+    var used : map<int, int> = [];
+    var us : map<int, int> = [];
+    var m : map<int, int> = [];
+    var n : int = num;
+    var i : int = 0;
+    var j : int = 0;
+    var s : int = 0;
+    var p : int = 0;
+    var back : bool = false;
+    var b_o : int = 0;
+    var bb : bool = false;
+
+    //m := put(m, 0, 1);
+
+    var t = floor((n - 1) / 2);
+    var k = n - 1;
+
+    iter ii to n do
+        if i < n then (
+            if n % 2 = 0 then (
+                t := i;
+            );
+
+            s := i * n + j;
+            p := i * n + k;
+            a := put(a, s, t);
+            b := put(b, p, t);
+            i := i + 1;
+            j := j + 1;
+            k := k - 1;
+        );
+    done;
+
+    i := n - 1;
+    j := 0;
+    p := 0;
+    k := 0;
+    t := floor((n - 1) / 2);
+    
+    if n % 2 = 1 then (
+        used := put(used, t, 1i);
+        m := put(m, (t * n + t), 1i);
+    );
+    
+    iter jj to n do
+        if j < n then (
+            if (i = j) and (n <> 1) then (
+                i := i - 1;
+                j := j + 1;
+                p := p + 1;
+            );
+
+            s := i * n + j;
+            
+            if n % 2 = 1 then (
+                iter uu to n do
+                    if contains(used, k) = true then k := k + 1
+                done;
+            ) else (
+                iter uu to n do
+                    if (contains(used, k) = true or k = i or k = j) then k := k + 1
+                done;
+            );
+
+            a := put(a, s, k);
+            used := put(used, k, 1i);
+
+            s := k * n + b[s];
+            m := put(m, s, 1i);
+
+            s := p * n + j;
+            b := put(b, s, k);
+
+            s := a[s] * n + k;
+            m := put(m, s, 1i);
+            
+            i := i - 1;
+            j := j + 1;
+            p := p + 1;
+            k := 0;
+        );
+    done;
+    
+    used := [];
+    i := 0;
+    j := 0;
+    k := 0;
+
+    var it : int = 0;
+    if (n = 5) then it := 44 else (
+        if (n = 7) then it := 3862 else (
+            it := n * n;
+        );
+    );
+
+    var pp : option<int> = none;
+
+    iter baba to it do
+        if i < (n - 1) or j < (n - 1) then (
+            t := i + j;
+
+            if i = j or t = (n - 1) then (
+                if back = false then (
+                    if j < (n - 1) then j := j + 1 else (
+                        i := i + 1;
+                        j := 0;
+                    );
+                ) else (
+                    if j > 0 then j := j - 1 else (
+                        i := i - 1;
+                        j := n - 1;
+                    );
+                );
+            ) else (
+                k := 0;
+
+                iter trtr to n do
+                    if k < n then (
+                        if k <> j then (
+                            s := i * n + k;
+                            pp := getopt(a, s);
+                            p :=
+                            match pp with
+                            | some(v) -> v
+                            | none -> n
+                            end;
+                            if p <> n then used := put(used, p, 1i);
+
+                            pp := getopt(b, s);
+                            p :=
+                            match pp with
+                            | some(v) -> v
+                            | none -> n
+                            end;
+                            if p <> n then us := put(us, p, 1i);
+                        );
+
+                        if k <> i then (
+                            s := k * n + j;
+
+                            pp := getopt(a, s);
+                            p :=
+                            match pp with
+                            | some(v) -> v
+                            | none -> n
+                            end;
+                            if p <> n then used := put(used, p, 1i);
+
+                            pp := getopt(b, s);
+                            p :=
+                            match pp with
+                            | some(v) -> v
+                            | none -> n
+                            end;
+                            if p <> n then us := put(us, p, 1i);
+                        );
+
+                        k := k + 1;
+                    );
+                done;
+
+                if i = 1 and j = 0 then (
+                    k := 0;
+
+                    if n % 2 = 0 then t := floor(n / 2) else t := n - 1;
+
+                    iter ij to t do
+                        if (k < t) then (
+                            used := put(used, k, 1i);
+                            k := k + 1;
+                        );
+                    done;
+                );
+
+                if i = 1 and j = 2 then (
+                    k := 0;
+
+                    t := floor(n / 2) - 1;
+
+                    iter ij to t do
+                        if (k < t) then (
+                            us := put(us, k, 1i);
+                            k := k + 1;
+                        );
+                    done;
+                ); 
+
+                if i = 1 and j = 3 then (
+                    k := 0;
+                    t := 3;
+
+                    iter ij to t do
+                        if (k < t) then (
+                            us := put(us, k, 1i);
+                            k := k + 1;
+                        );
+                    done;
+                );
+
+                if back = true then (
+                    s := i * n + j;
+                    k := a[s];
+                    t := b[s];
+                    a := put(a, s, n);
+                    b := put(b, s, n);
+
+                    s := k * n + t;
+                    m := put(m, s, 0i);
+
+                    if (b_o = 2) then (
+                        k := k + 1;
+                        t := t + 1;
+                    ) else (
+                        if (b_o = 1) then (
+                            k := k + 1;
+                            t := 0;
+                        ) else t := t + 1;
+                    );
+                ) else (
+                    k := 0;
+                    t := 0;
+                    b_o := 0;
+                );
+
+                iter kk to n do
+                    if contains(used, k) = true then k := k + 1;
+                done;
+
+                iter tt to n do
+                    if contains(us, t) = true then t := t + 1;
+                done;
+
+                if ((k < n and t < n) or (back = true and k < n)) then (
+                    if (t >= n) then (
+                        t := 0;
+                        k := k + 1;
+                    );
+
+                    var ti : int = 0;
+                    if n = 5 then ti := 3 else (
+                        if n = 7 then ti := 5 else (
+                            ti := 1
+                        )
+                    );
+
+                    iter zx to ti do
+                        if k < n and bb = false then (
+                            iter kk to n do
+                                if contains(used, k) = true then k := k + 1;
+                            done;
+
+                            iter tt to n do
+                                if contains(us, t) = true then t := t + 1;
+                            done;
+
+                            if t >= n or k >= n then (
+                                k := k + 1;
+                                t := 0;
+                            ) else (
+                                s := k * n + t;
+                                pp := getopt(m, s);
+                                p :=
+                                match pp with
+                                | some(v) -> v
+                                | none -> 0
+                                end;
+                                if p <> 1 then (
+                                    m := put(m, s, 1i);
+                                    s := i * n + j;
+                                    a := put(a, s, k);
+                                    b := put(b, s, t);
+
+                                    bb := true;
+                                ) else (
+                                    t := t + 1;
+
+                                    if t >= n then (
+                                        k := k + 1;
+                                        t := 0;
+                                    );
+                                );
+                            );
+                        );
+                    done;
+
+                    if bb = true then (
+                        if j < (n - 1) then j := j + 1 else (
+                            i := i + 1;
+                            j := 0;
+                        );
+
+                        bb := false;
+                        back := false;
+                    ) else (
+                        if j > 0 then j := j - 1 else (
+                            i := i - 1;
+                            j := n - 1;
+                        );
+
+                        back := true;
+                        b_o := 1;
+                    );
+                ) else (
+                    if back = false then (
+                        if k >= n and t >= n then b_o := 2 else (
+                            if k >= n then b_o := 1 else b_o := 0;
+                        );
+                    ) else b_o := 0;
+
+                    if j > 0 then j := j - 1 else (
+                        i := i - 1;
+                        j := n - 1;
+                    );
+
+                    back := true;
+                );
+
+                k := 0;
+                used := [];
+                us := [];
+            );
+        );
+    done;
+
+    m := [];
+    i := 0;
+    j := 0;
+
+    iter mm to n*n do
+        if i < n then (
+            s := i * n + j;
+            t := a[s];
+            k := b[s];
+            p := t * n + k + 1;
+            m := put(m, s, p);
+
+            if j < (n - 1) then j := j + 1 else (
+                i := i + 1;
+                j := 0;
+            );
+        );
+    done;
+
+    mag := m
+}
