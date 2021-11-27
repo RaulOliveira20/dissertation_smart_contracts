@@ -61,14 +61,5 @@ let%entry n_primes (num : int) _ =
   let i = 
     if (num <= 1) then 2 else i
   in
-
-  (*
-  let i = 
-    if (num <= 1) then 2 else 
-      let t = 2 in
-      let i = i + p*t in
-      i
-  in
-  *)
   
   ( [], i)
