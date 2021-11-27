@@ -27,12 +27,3 @@ class FirstNPrimes_V3(sp.Contract):
             self.data.last_prime = 2
         sp.else:
             self.data.last_prime = i.value - 2
-    
-@sp.add_test(name = "Testing getting the first N prime numbers")
-def test():
-    scenario = sp.test_scenario()
-
-    p = FirstNPrimes_V3()
-    scenario += p
-    
-    scenario += p.n_primes(3)
