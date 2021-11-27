@@ -67,14 +67,3 @@ class NQueens(sp.Contract):
 
                     k.value = 0
                     self.data.used = {}
-        
-        
-
-@sp.add_test(name = "Testing getting N queens in NxN board")
-def test():
-    scenario = sp.test_scenario()
-
-    p = NQueens()
-    scenario += p
-    
-    scenario += p.n_queens(4)
