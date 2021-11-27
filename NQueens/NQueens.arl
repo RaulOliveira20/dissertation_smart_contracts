@@ -1,0 +1,102 @@
+archetype NQueens
+
+variable queens : map<nat, nat> = []
+
+entry n_queens (num : int) {
+    
+    var m : map<nat, nat> = [];
+    var used : map<nat, nat> = [];
+    var n : nat = abs(num);
+    var count : int = 0;
+    var k : nat = 0;
+    //var d : nat = 0;
+    //var v : nat = 0;
+    var back : bool = false;
+    var it : nat = 0;
+
+    if (n = 1 or n = 5) then it := n + 1 else (
+        if (n = 4 or n = 7) then it := 13 else (
+            if (n = 6 or n = 9 or n = 11) then it := n * 9 + 3 else (
+                if (n = 8) then it := 220 else (
+                    if (n = 10) then it := n * 20 else (
+                        if (n = 13) then it := n * 16 + 2 else (
+                            if (n = 12) then it := n * 43 else (
+                                if (n = 14) then it := 3790 else (
+                                    if (n = 15) then it := 2705
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
+
+    if (n <= 0 or n = 2 or n = 3) then m := [] else (
+        iter i to it do
+            if count < n then (
+                if count = 0 then (
+                    if back = false then m := put(m, abs(count), 0) else (
+                        var t = m[abs(count)];
+                        t := t + 1;
+                        m := put(m, abs(count), t);
+                        back := false
+                    );
+
+                    count := count + 1
+                ) else (
+                    iter a to count + 1 do
+                        if k < count then (
+                            var v = m[k];
+                            used := put(used, v, 1);
+                            var d = count - k;
+                            var vd = v + d;
+                            var dv = v - d;
+
+                            if vd < n then used := put(used, abs(vd), 1);
+
+                            if dv >= 0 then used := put(used, abs(dv), 1);
+
+                            k := k + 1
+                        );
+                    done;
+
+                    if back = true then (
+                        var v = m[abs(count)];
+                        k := 0;
+
+                        iter e to v + 2 do
+                            if k < v + 1 then (
+                                used := put(used, k, 1);
+                                k := k + 1
+                            );
+                        done;
+
+                        back := false
+                    );
+
+                    k := 0;
+
+                    iter o to n + 1 do
+                        var c = contains(used, k);
+
+                        if c = true then k := k + 1
+                    done;
+
+                    if k >= n then (
+                        back := true;
+                        count := count - 1
+                    ) else (
+                        m := put(m, abs(count), k);
+                        count := count + 1
+                    );
+
+                    k := 0;
+                    used := []
+                );
+            );
+        done;
+    );
+        
+    queens := m
+}
