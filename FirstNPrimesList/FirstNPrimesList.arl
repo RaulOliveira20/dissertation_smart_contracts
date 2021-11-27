@@ -1,0 +1,32 @@
+archetype FirstNPrimesList
+
+variable primes : int = 0
+
+entry n_primes (num : int) {
+    var l = [2];
+    var i : nat = 3;
+    var c : int = 0;
+    var p : int = 1;
+    var nn : int = num * 5;
+
+    iter z to nn do
+        if p < num then
+        (
+            for e in l do
+                if i % e = 0 then c := 1;
+            done;
+
+            if c = 0 then
+            (
+                l := prepend(l, i);
+                p := p + 1;
+            );
+
+            c := 0;
+
+            i += 2;
+        );
+    done;
+
+    if (num <= 1) then primes := 2 else primes := i - 2
+}
