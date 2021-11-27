@@ -9,8 +9,6 @@ entry n_queens (num : int) {
     var n : nat = abs(num);
     var count : int = 0;
     var k : nat = 0;
-    //var d : nat = 0;
-    //var v : nat = 0;
     var back : bool = false;
     var it : nat = 0;
 
